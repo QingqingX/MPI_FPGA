@@ -1,0 +1,98 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 1991-2015 Altera Corporation. All rights reserved.
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, the Altera Quartus Prime License Agreement,
+the Altera MegaCore Function License Agreement, or other 
+applicable license agreement, including, without limitation, 
+that your use is for the sole purpose of programming logic 
+devices manufactured by Altera and sold by Altera or its 
+authorized distributors.  Please refer to the applicable 
+agreement for further details.
+*/
+(header "symbol" (version "1.1"))
+(symbol
+	(rect 0 0 640 256)
+	(text "nios2_withdram" (rect 274 -1 335 11)(font "Arial" (font_size 10)))
+	(text "inst" (rect 8 240 20 252)(font "Arial" ))
+	(port
+		(pt 0 128)
+		(input)
+		(text "clk_clk" (rect 0 0 27 12)(font "Arial" (font_size 8)))
+		(text "clk_clk" (rect 4 117 46 128)(font "Arial" (font_size 8)))
+		(line (pt 0 128)(pt 288 128)(line_width 1))
+	)
+	(port
+		(pt 0 168)
+		(input)
+		(text "nic_recv_0_network_data_comes_here_packet[127..0]" (rect 0 0 221 12)(font "Arial" (font_size 8)))
+		(text "nic_recv_0_network_data_comes_here_packet[127..0]" (rect 4 157 298 168)(font "Arial" (font_size 8)))
+		(line (pt 0 168)(pt 288 168)(line_width 3))
+	)
+	(port
+		(pt 0 184)
+		(input)
+		(text "nic_recv_0_network_data_comes_here_valid" (rect 0 0 185 12)(font "Arial" (font_size 8)))
+		(text "nic_recv_0_network_data_comes_here_valid" (rect 4 173 244 184)(font "Arial" (font_size 8)))
+		(line (pt 0 184)(pt 288 184)(line_width 1))
+	)
+	(port
+		(pt 0 224)
+		(input)
+		(text "reset_reset_n" (rect 0 0 56 12)(font "Arial" (font_size 8)))
+		(text "reset_reset_n" (rect 4 213 82 224)(font "Arial" (font_size 8)))
+		(line (pt 0 224)(pt 288 224)(line_width 1))
+	)
+	(port
+		(pt 0 72)
+		(output)
+		(text "acc_0_packet_out_packet[127..0]" (rect 0 0 134 12)(font "Arial" (font_size 8)))
+		(text "acc_0_packet_out_packet[127..0]" (rect 4 61 190 72)(font "Arial" (font_size 8)))
+		(line (pt 0 72)(pt 288 72)(line_width 3))
+	)
+	(port
+		(pt 0 88)
+		(output)
+		(text "acc_0_packet_out_valid" (rect 0 0 97 12)(font "Arial" (font_size 8)))
+		(text "acc_0_packet_out_valid" (rect 4 77 136 88)(font "Arial" (font_size 8)))
+		(line (pt 0 88)(pt 288 88)(line_width 1))
+	)
+	(drawing
+		(text "acc_0_packet_out" (rect 183 43 462 99)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "packet" (rect 293 67 622 144)(font "Arial" (color 0 0 0)))
+		(text "valid" (rect 293 83 616 176)(font "Arial" (color 0 0 0)))
+		(text "clk" (rect 273 99 564 211)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "clk" (rect 293 123 604 256)(font "Arial" (color 0 0 0)))
+		(text "nic_recv_0_network_data_comes_here" (rect 58 139 320 291)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "packet" (rect 293 163 622 336)(font "Arial" (color 0 0 0)))
+		(text "valid" (rect 293 179 616 368)(font "Arial" (color 0 0 0)))
+		(text "reset" (rect 259 195 548 403)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "reset_n" (rect 293 219 628 448)(font "Arial" (color 0 0 0)))
+		(text " system " (rect 605 240 1258 490)(font "Arial" ))
+		(line (pt 288 32)(pt 352 32)(line_width 1))
+		(line (pt 352 32)(pt 352 240)(line_width 1))
+		(line (pt 288 240)(pt 352 240)(line_width 1))
+		(line (pt 288 32)(pt 288 240)(line_width 1))
+		(line (pt 289 52)(pt 289 92)(line_width 1))
+		(line (pt 290 52)(pt 290 92)(line_width 1))
+		(line (pt 289 108)(pt 289 132)(line_width 1))
+		(line (pt 290 108)(pt 290 132)(line_width 1))
+		(line (pt 289 148)(pt 289 188)(line_width 1))
+		(line (pt 290 148)(pt 290 188)(line_width 1))
+		(line (pt 289 204)(pt 289 228)(line_width 1))
+		(line (pt 290 204)(pt 290 228)(line_width 1))
+		(line (pt 0 0)(pt 640 0)(line_width 1))
+		(line (pt 640 0)(pt 640 256)(line_width 1))
+		(line (pt 0 256)(pt 640 256)(line_width 1))
+		(line (pt 0 0)(pt 0 256)(line_width 1))
+	)
+)

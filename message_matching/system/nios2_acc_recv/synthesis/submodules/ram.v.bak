@@ -1,0 +1,46 @@
+// ram
+`timescale 1 ps / 1 ps
+module ram
+#(parameter DATA_WIDTH=256, parameter ADDR_WIDTH=10)
+(
+	input [(DATA_WIDTH-1):0] data_n, data_req,
+	input [(ADDR_WIDTH-1):0] addr_n, addr_req,
+	input we_n, we_req, clk, 
+	output reg [(DATA_WIDTH-1):0] q_n,
+	output reg [(DATA_WIDTH -1) : 0] q_req
+);
+
+
+
+
+	// Declare the RAM variable
+	reg [DATA_WIDTH-1:0] ram[2**ADDR_WIDTH-1:0];
+
+	integer x;
+	reg [9:0] x_reg;
+	// Port A 
+	always @ (posedge clk)
+	begin
+		if (we_n) begin		   
+				ram[addr_n] <= data_n;   
+				q_n <= data_n;
+		end
+		else begin
+			q_n <= ram[addr_n];
+		end
+	end 
+
+	// Port B
+	always @ (posedge clk)
+	begin
+		if (we_req) begin		   
+				ram[addr_req] <= data_req;   
+				q_req <= data_req;
+		end
+		else begin 
+			q_req <= ram[addr_req];	
+		end
+	end 
+
+	
+endmodule

@@ -1,0 +1,187 @@
+`timescale 1 ps / 1 ps
+/*
+data_a = 32'b01010101_01010101_00000000_00000001;   /type, source, dst of the data ,e.g. 0 to 1
+	data_b = 32'b00000000_00_00000000100_00000000001; // when it is eager short, data is stored as highest 10 bit
+	in = 3'b111;
+
+
+
+
+
+
+*/
+module acc_send #(
+		parameter cpu_width = 32,
+		parameter packetizer_width = 128,
+		parameter data_width = 32,
+		parameter mem_width = 32,
+		parameter mem_depth = 11,
+		parameter threshold  = 1,
+		parameter SIZE = 3
+	) (
+		input  wire        nios_clk,   // in_clk_0.clk
+		input  wire 		 clk_en,
+		input  wire        reset, // in_rst_0.reset
+		input  wire [31:0] data_in_a,      //     header
+		input  wire [31:0] data_in_b,      //     data or pointer to data
+		input  wire [2:0]  in_opcode,     //    mpi type  
+		input  wire 		 start,
+		output wire [31:0] result,
+		output wire 		 done,   
+		/////////////////these goes to the router///////////////////////////////
+		output reg [packetizer_width-1:0] packet, 
+	   input wire 	[packetizer_width-1:0] packet_in,
+		/////////////////these goes to the main memory//////////////////////////
+		output wire [31:0] mem_addr,
+		input  wire [data_width-1:0]   data_from_mem,   
+		output wire read, //same as chipselect here, only for interfacing as avalon memory mapped master
+		/////////////////these comes from router///////////////////////////////
+		input wire hold
+		
+	);
+	
+	reg   [SIZE-1:0]          state, next_state        ;
+	reg   [10:0]				  size, tag;
+	reg   [data_width-1:0]    head, pointer;
+	wire  [10:0]				  tag_w;
+	reg 	[data_width-1:0] 	  read_addr;//these goes to mem ctrl
+	reg        					  read_mem_valid, done_r, done_r_2;
+	wire [data_width-1:0]	  data;
+	//assign mem_clk = nios_clk;
+	//assign mem_reset = reset;
+	localparam WAIT = 3'b000,
+				  STORE = 3'b001,
+				  CHECK = 3'b010,				  				  
+				  RNDV = 3'b011,   //long message, generate and send RTS to dst node, and wait for CTS message
+				  MEM = 3'b100,	//when receive CTS, jump from RNDV to this one
+				  SEND_Eager = 3'b101,
+					SEND = 3'b111;
+	//state machine 
+	always @ (posedge nios_clk)
+	begin : FSM_REQ
+		if (reset == 1'b1) begin
+			state <= WAIT;
+			done_r_2 <= 1'b0;
+		end else begin
+			state <= next_state;
+			done_r_2 = done_r;
+		end 
+	end
+	//***********CTS
+	reg   CTS;
+	reg [26:0] cts_new_info;
+	
+	always @ (posedge nios_clk)
+	begin : FSM_CTS
+		if (reset == 1'b1 || done == 1'b0) begin
+			CTS <= 0;
+			cts_new_info <= 27'b0;
+		end else if (packet_in[127:123] == 5'b01110) begin  //CTS coming 
+			cts_new_info <= packet_in[103:77];
+			CTS <= 1;
+		end 
+	end
+	
+	always @ (state or start or tag or size or CTS)
+	begin : STATE_DIAGRAM
+		case (state)
+			WAIT: begin
+				if (start) 
+					next_state = STORE;
+				done_r = 1'b0;
+			end
+			STORE: begin
+			   next_state = CHECK;
+			end
+			CHECK: begin
+			   if (size > threshold) 
+					next_state = RNDV;
+				else 
+					next_state = SEND_Eager;
+			end
+			SEND_Eager: begin					
+				   next_state = WAIT;
+					done_r = 1'b1;
+			end 
+			RNDV: begin
+		      if (CTS)
+					next_state = MEM;
+			end
+			MEM: begin
+				next_state = SEND;
+			end
+			SEND: begin
+				if (tag == size-1) begin
+					next_state = WAIT;
+					done_r = 1'b1;
+				end
+			end
+			default: begin
+				next_state = WAIT;
+			end
+		endcase
+	end
+	
+	always @ (posedge nios_clk)
+	begin : OUT_PUT
+		if (reset == 1'b1) begin
+			head = 32'b0;
+			pointer = 32'b0;
+			size = 11'b0;
+			packet = 128'b0;
+			read_mem_valid = 1'b0;
+			read_addr = 32'b0;
+		end else begin
+			case (state)
+				WAIT: begin
+					head = 32'b0;
+					pointer = 32'b0;
+					size = 11'b0;
+					packet = 128'b0;
+					read_mem_valid = 1'b0;
+					read_addr = 32'b0;
+				end
+				STORE: begin
+					head = data_in_a;		//store the type, source, dst of the data 
+					pointer = data_in_b; //store pointer to the data in memory/ when it is eager, this is the actual data
+					size = data_in_b[10:0];
+				end
+				CHECK: begin
+				
+				end
+				SEND_Eager: begin
+				   packet = {5'b10000, in_opcode, head, pointer, 45'b0, tag}; //data packet 5'b, 3'b, 32, 32, 45 ,11
+				end
+				RNDV: begin //generate RTS
+					packet = {5'b10001, in_opcode, head, size, 77'b0};  //RTS packet starts with 5'b10001,3'bopcode,32'bhead,size, 77'b0;
+				end
+				MEM: begin
+					read_addr = pointer;
+					read_mem_valid = 1'b1;					
+				end
+				SEND: begin
+					packet = {5'b11000, in_opcode, head, data, 45'b0, tag}; //data packet 5'b, 3'b, 32, 32, 45 ,11
+					read_mem_valid = 1'b0;					
+				end
+				default: begin
+					head = 32'b0;
+					pointer = 32'b0;
+					size = 11'b0;
+					packet = 128'b0;
+					read_mem_valid = 1'b0;
+					read_addr = 32'b0;
+
+				end
+			endcase 
+		end 
+	end
+always @ (tag_w)
+	tag = tag_w;
+assign done = done_r_2;
+assign result = done ? 32'b01000000101000000000000000000000:32'b0;
+mem mem_main(nios_clk, reset,hold, read_addr, read_mem_valid&&(~hold), data, tag_w, 
+				read, mem_addr, data_from_mem); //THIS LINE needs to go all the way to the top level of the accelerator
+	
+endmodule
+		
+	

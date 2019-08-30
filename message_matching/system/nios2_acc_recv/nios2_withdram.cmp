@@ -1,0 +1,11 @@
+	component nios2_withdram is
+		port (
+			acc_0_packet_out_packet                   : out std_logic_vector(127 downto 0);                    -- packet
+			acc_0_packet_out_valid                    : out std_logic;                                         -- valid
+			clk_clk                                   : in  std_logic                      := 'X';             -- clk
+			nic_recv_0_network_data_comes_here_packet : in  std_logic_vector(127 downto 0) := (others => 'X'); -- packet
+			nic_recv_0_network_data_comes_here_valid  : in  std_logic                      := 'X';             -- valid
+			reset_reset_n                             : in  std_logic                      := 'X'              -- reset_n
+		);
+	end component nios2_withdram;
+

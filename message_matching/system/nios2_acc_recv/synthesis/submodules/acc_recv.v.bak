@@ -1,0 +1,162 @@
+`timescale 1 ps / 1 ps
+module acc_recv #(
+		parameter cpu_width = 32,
+		parameter packetizer_width = 128,
+		parameter data_width = 32,
+		parameter mem_width = 32,
+		parameter mem_depth = 11,
+		parameter threshold  = 1,
+		parameter SIZE = 3
+	) (
+		input  wire        nios_clk,   // in_clk_0.clk
+		input  wire        clk_en,
+		input  wire        reset, // in_rst_0.reset
+		input  wire [31:0] data_in_a,      //     header
+		input  wire [31:0] data_in_b,      //     data or pointer to data
+		input  wire [2:0]  in_opcode,     //    mpi type  
+		input  wire 		 start,
+		output wire [31:0] result,
+		output wire 		 done, 		
+		/////////////////these comes from the router///////////////////////////////
+		input wire [packetizer_width-1:0] packet_in,  
+		output reg [packetizer_width-1:0] packet_out,
+		/////////////////these goes to the main memory//////////////////////////
+		output wire        write,
+		output wire [10:0] write_addr,
+		output wire [data_width-1:0]   data_to_mem  
+		 //same as chipselect here, only for interfacing as avalon memory mapped master
+	);
+	
+	reg   [SIZE-1:0]          state, next_state        ;
+	reg   [10:0]				  size, tag;
+	reg   [data_width-1:0]    head, pointer;
+	//wire  [10:0]				  tag_w;
+	//reg 	[data_width-1:0] 	  write_addr_r;//these goes to mem ctrl
+	reg        					  done_r, done_r_2;
+	wire [data_width-1:0]	  data;
+	
+	localparam WAIT = 4'b0000,
+				  //STORE = 4'b0001,
+				  EAGER = 4'b0010,
+				  RNDV = 4'b0011,		//long message,generate and send CTS message		  				   
+				  MEM = 4'b0101;	//start writing to mem and announce CPU
+				  //MEM2 = 3'b101,
+				
+	//state machine 
+	always @ (posedge nios_clk)
+	begin : FSM_DONE
+		if (reset == 1'b1) begin
+			//state <= WAIT;
+			done_r_2 <= 1'b0;
+		end else begin
+			//state <= next_state;
+			done_r_2 = done_r;
+		end 
+	end
+	//***********RTS
+	reg   RTS;
+	reg [26:0] rts_new_info;
+	
+	always @ (posedge nios_clk)
+	begin : FSM_REQ
+		if (reset == 1'b1 || done == 1'b0) begin
+			RTS <= 0;
+			rts_new_info <= 27'b0;
+		end else if (packet_in[127:123] == 5'b10001) begin  //RTS coming 
+			rts_new_info <= packet_in[103:77];
+			RTS <= 1;
+		end 
+	end
+	//***********EAGER
+	reg eager;
+	//***********request
+   reg req;	
+	//***********DATA
+	reg DATA;
+	//***********result
+	reg [data_width-1:0] result_r;
+	
+	reg write_mem_valid, end_write;
+
+	always @ (state or req or eager or RTS or DATA or end_write)
+	begin : STATE_DIAGRAM
+		case (state)
+			WAIT: begin
+				if (RTS && req)
+					state = RNDV;
+				else if (eager && req)
+				   state = EAGER;
+			end
+			EAGER: begin			   
+				state = WAIT;
+			end
+			RNDV: begin
+				if (DATA) begin
+					state = MEM;
+				end 
+			end
+			MEM: begin
+			   if (end_write)
+				state = WAIT;
+			end
+			default: begin
+				state = WAIT;
+			end
+		endcase
+	end
+	
+	reg [packetizer_width-1:0] data_from_router;
+	
+	always @ (posedge nios_clk)
+	begin : OUT_PUT
+		if (reset == 1'b1) begin
+			head = 32'b0;
+			pointer = 32'b0;
+			size = 11'b0;
+			write_mem_valid = 1'b0;
+		end else begin
+			case (state)
+				WAIT: begin
+				   write_mem_valid = 1'b0;
+					req = start;	//when nios says starts, it must be recv req
+					eager = (packet_in[127:123] == 5'b10000) ? 1'b1 : 0; //eager and long data packets have the same header 5-bit, inthis step, you cannot see long data
+					data_from_router = packet_in;					
+					head = data_in_a;
+					pointer = data_in_b;
+					size = data_in_b[10:0];
+				end	
+				EAGER: begin
+					result_r = data_from_router[87:56];
+					done_r = 1'b1;
+				end
+				RNDV: begin //generate CTS
+					packet_out = {5'b01110, in_opcode, head, size, 77'b0};  //CTS packet starts with 5'b01110,3'bopcode,32'bhead,88'b0;
+					DATA = (packet_in[127:123] == 5'b11000) ? 1'b1:0;
+				end
+				MEM: begin
+					write_mem_valid = 1'b1;					
+					done_r = 1'b1; //after writing one value, send done signal
+				end
+				default: begin
+					head = 32'b0;
+					pointer = 32'b0;
+					size = 11'b0;
+				   write_mem_valid = 1'b0;
+				end
+			endcase 
+		end 
+	end	
+
+always @ (posedge nios_clk)
+	if (reset)
+		end_write = 0;
+	else if (start && (packet_in[10:0] == size - 1))
+		end_write = 1;
+
+		
+assign write = write_mem_valid;
+assign data_to_mem = packet_in[87:56];
+assign write_addr = pointer[21:11] + packet_in[10:0];
+assign done = done_r_2;
+assign result = result_r;
+endmodule

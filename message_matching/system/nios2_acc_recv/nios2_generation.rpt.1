@@ -1,0 +1,164 @@
+Info: Starting: Create block symbol file (.bsf)
+Info: qsys-generate /home/qx/Documents/mpi_fc5/nios2.qsys --block-symbol-file --output-directory=/home/qx/Documents/mpi_fc5/nios2_acc_recv --family="Stratix V" --part=5SGSMD8K2F40C2
+Progress: Loading mpi_fc5/nios2.qsys
+Progress: Reading input file
+Progress: Adding acc_0 [acc 1.0]
+Progress: Parameterizing module acc_0
+Progress: Adding acc_recv_0 [acc_recv 2.0]
+Progress: Parameterizing module acc_recv_0
+Progress: Adding arbit_0 [arbit 1.0]
+Progress: Parameterizing module arbit_0
+Progress: Adding clk_0 [clock_source 15.1]
+Progress: Parameterizing module clk_0
+Progress: Adding jtaguart_0 [altera_avalon_jtag_uart 15.1]
+Progress: Parameterizing module jtaguart_0
+Progress: Adding mem [altera_avalon_onchip_memory2 15.1]
+Progress: Parameterizing module mem
+Progress: Adding nios2_0 [altera_nios2_gen2 15.1]
+Progress: Parameterizing module nios2_0
+Progress: Adding performance_counter_0 [altera_avalon_performance_counter 15.1]
+Progress: Parameterizing module performance_counter_0
+Progress: Adding pll_0 [altera_pll 15.1]
+Progress: Parameterizing module pll_0
+Progress: Adding sys_clk_timer [altera_avalon_timer 15.1]
+Progress: Parameterizing module sys_clk_timer
+Progress: Adding sysid [altera_avalon_sysid_qsys 15.1]
+Progress: Parameterizing module sysid
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: nios2.pll_0: The legal reference clock frequency is 5.0 MHz..800.0 MHz
+Info: nios2.pll_0: Able to implement PLL with user settings
+Info: nios2.sysid: System ID is not assigned automatically. Edit the System ID parameter to provide a unique ID
+Info: nios2.sysid: Time stamp will be automatically updated when this component is generated.
+Info: qsys-generate succeeded.
+Info: Finished: Create block symbol file (.bsf)
+Info: 
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate /home/qx/Documents/mpi_fc5/nios2.qsys --synthesis=VERILOG --greybox --output-directory=/home/qx/Documents/mpi_fc5/nios2_acc_recv/synthesis --family="Stratix V" --part=5SGSMD8K2F40C2
+Progress: Loading mpi_fc5/nios2.qsys
+Progress: Reading input file
+Progress: Adding acc_0 [acc 1.0]
+Progress: Parameterizing module acc_0
+Progress: Adding acc_recv_0 [acc_recv 2.0]
+Progress: Parameterizing module acc_recv_0
+Progress: Adding arbit_0 [arbit 1.0]
+Progress: Parameterizing module arbit_0
+Progress: Adding clk_0 [clock_source 15.1]
+Progress: Parameterizing module clk_0
+Progress: Adding jtaguart_0 [altera_avalon_jtag_uart 15.1]
+Progress: Parameterizing module jtaguart_0
+Progress: Adding mem [altera_avalon_onchip_memory2 15.1]
+Progress: Parameterizing module mem
+Progress: Adding nios2_0 [altera_nios2_gen2 15.1]
+Progress: Parameterizing module nios2_0
+Progress: Adding performance_counter_0 [altera_avalon_performance_counter 15.1]
+Progress: Parameterizing module performance_counter_0
+Progress: Adding pll_0 [altera_pll 15.1]
+Progress: Parameterizing module pll_0
+Progress: Adding sys_clk_timer [altera_avalon_timer 15.1]
+Progress: Parameterizing module sys_clk_timer
+Progress: Adding sysid [altera_avalon_sysid_qsys 15.1]
+Progress: Parameterizing module sysid
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: nios2.pll_0: The legal reference clock frequency is 5.0 MHz..800.0 MHz
+Info: nios2.pll_0: Able to implement PLL with user settings
+Info: nios2.sysid: System ID is not assigned automatically. Edit the System ID parameter to provide a unique ID
+Info: nios2.sysid: Time stamp will be automatically updated when this component is generated.
+Info: nios2: Generating nios2 "nios2" for QUARTUS_SYNTH
+Info: Interconnect is inserted between master arbit_0.avalon_master and slave mem.s2 because the master has waitrequest signal 1 bit wide, but the slave is 0 bit wide.
+Info: Interconnect is inserted between master arbit_0.avalon_master and slave mem.s2 because the master has read signal 1 bit wide, but the slave is 0 bit wide.
+Info: Interconnect is inserted between master arbit_0.avalon_master and slave mem.s2 because the master has address signal 20 bit wide, but the slave is 18 bit wide.
+Warning: nios2: "No matching role found for nios2_0_custom_instruction_master_translator:ci_slave:ci_slave_result (result)"
+Warning: nios2: "No matching role found for nios2_0_custom_instruction_master_multi_xconnect:ci_slave:ci_slave_ipending (ipending)"
+Warning: nios2: "No matching role found for nios2_0_custom_instruction_master_multi_xconnect:ci_slave:ci_slave_estatus (estatus)"
+Info: acc_0: "nios2" instantiated acc "acc_0"
+Info: acc_recv_0: "nios2" instantiated acc_recv "acc_recv_0"
+Info: arbit_0: "nios2" instantiated arbit "arbit_0"
+Info: jtaguart_0: Starting RTL generation for module 'nios2_jtaguart_0'
+Info: jtaguart_0:   Generation command is [exec /opt/altera/15.1/quartus/linux64/perl/bin/perl -I /opt/altera/15.1/quartus/linux64/perl/lib -I /opt/altera/15.1/quartus/sopc_builder/bin/europa -I /opt/altera/15.1/quartus/sopc_builder/bin/perl_lib -I /opt/altera/15.1/quartus/sopc_builder/bin -I /opt/altera/15.1/quartus/../ip/altera/sopc_builder_ip/common -I /opt/altera/15.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart -- /opt/altera/15.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart/generate_rtl.pl --name=nios2_jtaguart_0 --dir=/tmp/alt7500_1315642359609293307.dir/0006_jtaguart_0_gen/ --quartus_dir=/opt/altera/15.1/quartus --verilog --config=/tmp/alt7500_1315642359609293307.dir/0006_jtaguart_0_gen//nios2_jtaguart_0_component_configuration.pl  --do_build_sim=0  ]
+Info: jtaguart_0: Done RTL generation for module 'nios2_jtaguart_0'
+Info: jtaguart_0: "nios2" instantiated altera_avalon_jtag_uart "jtaguart_0"
+Info: mem: Starting RTL generation for module 'nios2_mem'
+Info: mem:   Generation command is [exec /opt/altera/15.1/quartus/linux64/perl/bin/perl -I /opt/altera/15.1/quartus/linux64/perl/lib -I /opt/altera/15.1/quartus/sopc_builder/bin/europa -I /opt/altera/15.1/quartus/sopc_builder/bin/perl_lib -I /opt/altera/15.1/quartus/sopc_builder/bin -I /opt/altera/15.1/quartus/../ip/altera/sopc_builder_ip/common -I /opt/altera/15.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- /opt/altera/15.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=nios2_mem --dir=/tmp/alt7500_1315642359609293307.dir/0007_mem_gen/ --quartus_dir=/opt/altera/15.1/quartus --verilog --config=/tmp/alt7500_1315642359609293307.dir/0007_mem_gen//nios2_mem_component_configuration.pl  --do_build_sim=0  ]
+Info: mem: Done RTL generation for module 'nios2_mem'
+Info: mem: "nios2" instantiated altera_avalon_onchip_memory2 "mem"
+Info: nios2_0: "nios2" instantiated altera_nios2_gen2 "nios2_0"
+Info: performance_counter_0: Starting RTL generation for module 'nios2_performance_counter_0'
+Info: performance_counter_0:   Generation command is [exec /opt/altera/15.1/quartus/linux64/perl/bin/perl -I /opt/altera/15.1/quartus/linux64/perl/lib -I /opt/altera/15.1/quartus/sopc_builder/bin/europa -I /opt/altera/15.1/quartus/sopc_builder/bin/perl_lib -I /opt/altera/15.1/quartus/sopc_builder/bin -I /opt/altera/15.1/quartus/../ip/altera/sopc_builder_ip/common -I /opt/altera/15.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_performance_counter -- /opt/altera/15.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_performance_counter/generate_rtl.pl --name=nios2_performance_counter_0 --dir=/tmp/alt7500_1315642359609293307.dir/0008_performance_counter_0_gen/ --quartus_dir=/opt/altera/15.1/quartus --verilog --config=/tmp/alt7500_1315642359609293307.dir/0008_performance_counter_0_gen//nios2_performance_counter_0_component_configuration.pl  --do_build_sim=0  ]
+Info: performance_counter_0: Done RTL generation for module 'nios2_performance_counter_0'
+Info: performance_counter_0: "nios2" instantiated altera_avalon_performance_counter "performance_counter_0"
+Info: pll_0: "nios2" instantiated altera_pll "pll_0"
+Info: sys_clk_timer: Starting RTL generation for module 'nios2_sys_clk_timer'
+Info: sys_clk_timer:   Generation command is [exec /opt/altera/15.1/quartus/linux64//perl/bin/perl -I /opt/altera/15.1/quartus/linux64//perl/lib -I /opt/altera/15.1/quartus/sopc_builder/bin/europa -I /opt/altera/15.1/quartus/sopc_builder/bin/perl_lib -I /opt/altera/15.1/quartus/sopc_builder/bin -I /opt/altera/15.1/quartus/../ip/altera/sopc_builder_ip/common -I /opt/altera/15.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_timer -- /opt/altera/15.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_timer/generate_rtl.pl --name=nios2_sys_clk_timer --dir=/tmp/alt7500_1315642359609293307.dir/0010_sys_clk_timer_gen/ --quartus_dir=/opt/altera/15.1/quartus --verilog --config=/tmp/alt7500_1315642359609293307.dir/0010_sys_clk_timer_gen//nios2_sys_clk_timer_component_configuration.pl  --do_build_sim=0  ]
+Info: sys_clk_timer: Done RTL generation for module 'nios2_sys_clk_timer'
+Info: sys_clk_timer: "nios2" instantiated altera_avalon_timer "sys_clk_timer"
+Info: sysid: "nios2" instantiated altera_avalon_sysid_qsys "sysid"
+Info: nios2_0_custom_instruction_master_translator: "nios2" instantiated altera_customins_master_translator "nios2_0_custom_instruction_master_translator"
+Info: nios2_0_custom_instruction_master_multi_xconnect: "nios2" instantiated altera_customins_xconnect "nios2_0_custom_instruction_master_multi_xconnect"
+Info: nios2_0_custom_instruction_master_multi_slave_translator0: "nios2" instantiated altera_customins_slave_translator "nios2_0_custom_instruction_master_multi_slave_translator0"
+Info: mm_interconnect_0: "nios2" instantiated altera_mm_interconnect "mm_interconnect_0"
+Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_001: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_002: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_003: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_004: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_005: Inserting error_adapter: error_adapter_0
+Info: mm_interconnect_1: "nios2" instantiated altera_mm_interconnect "mm_interconnect_1"
+Info: irq_mapper: "nios2" instantiated altera_irq_mapper "irq_mapper"
+Info: rst_controller: "nios2" instantiated altera_reset_controller "rst_controller"
+Info: cpu: Starting RTL generation for module 'nios2_nios2_0_cpu'
+Info: cpu:   Generation command is [exec /opt/altera/15.1/quartus/linux64//eperlcmd -I /opt/altera/15.1/quartus/linux64//perl/lib -I /opt/altera/15.1/quartus/sopc_builder/bin/europa -I /opt/altera/15.1/quartus/sopc_builder/bin/perl_lib -I /opt/altera/15.1/quartus/sopc_builder/bin -I /opt/altera/15.1/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/cpu_lib -I /opt/altera/15.1/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/nios_lib -I /opt/altera/15.1/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -I /opt/altera/15.1/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -- /opt/altera/15.1/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/generate_rtl.epl --name=nios2_nios2_0_cpu --dir=/tmp/alt7500_1315642359609293307.dir/0015_cpu_gen/ --quartus_bindir=/opt/altera/15.1/quartus/linux64/ --verilog --config=/tmp/alt7500_1315642359609293307.dir/0015_cpu_gen//nios2_nios2_0_cpu_processor_configuration.pl  --do_build_sim=0  ]
+Info: cpu: # 2017.12.02 22:01:08 (*) Starting Nios II generation
+Info: cpu: # 2017.12.02 22:01:08 (*)   Checking for plaintext license.
+Info: cpu: # 2017.12.02 22:01:14 (*)   Plaintext license not found.
+Info: cpu: # 2017.12.02 22:01:14 (*)   Checking for encrypted license (non-evaluation).
+Info: cpu: # 2017.12.02 22:01:21 (*)   Encrypted license found.  SOF will not be time-limited.
+Info: cpu: # 2017.12.02 22:01:21 (*)   Elaborating CPU configuration settings
+Info: cpu: # 2017.12.02 22:01:21 (*)   Creating all objects for CPU
+Info: cpu: # 2017.12.02 22:01:21 (*)     Testbench
+Info: cpu: # 2017.12.02 22:01:21 (*)     Instruction decoding
+Info: cpu: # 2017.12.02 22:01:21 (*)       Instruction fields
+Info: cpu: # 2017.12.02 22:01:21 (*)       Instruction decodes
+Info: cpu: # 2017.12.02 22:01:22 (*)       Signals for RTL simulation waveforms
+Info: cpu: # 2017.12.02 22:01:22 (*)       Instruction controls
+Info: cpu: # 2017.12.02 22:01:22 (*)     Pipeline frontend
+Info: cpu: # 2017.12.02 22:01:22 (*)     Pipeline backend
+Info: cpu: # 2017.12.02 22:01:25 (*)   Generating RTL from CPU objects
+Info: cpu: # 2017.12.02 22:01:28 (*)   Creating encrypted RTL
+Info: cpu: # 2017.12.02 22:01:29 (*) Done Nios II generation
+Info: cpu: Done RTL generation for module 'nios2_nios2_0_cpu'
+Info: cpu: "nios2_0" instantiated altera_nios2_gen2_unit "cpu"
+Info: arbit_0_avalon_master_translator: "mm_interconnect_0" instantiated altera_merlin_master_translator "arbit_0_avalon_master_translator"
+Info: mem_s2_translator: "mm_interconnect_0" instantiated altera_merlin_slave_translator "mem_s2_translator"
+Info: nios2_0_data_master_agent: "mm_interconnect_1" instantiated altera_merlin_master_agent "nios2_0_data_master_agent"
+Info: jtaguart_0_avalon_jtag_slave_agent: "mm_interconnect_1" instantiated altera_merlin_slave_agent "jtaguart_0_avalon_jtag_slave_agent"
+Info: jtaguart_0_avalon_jtag_slave_agent_rsp_fifo: "mm_interconnect_1" instantiated altera_avalon_sc_fifo "jtaguart_0_avalon_jtag_slave_agent_rsp_fifo"
+Info: router: "mm_interconnect_1" instantiated altera_merlin_router "router"
+Info: router_001: "mm_interconnect_1" instantiated altera_merlin_router "router_001"
+Info: router_002: "mm_interconnect_1" instantiated altera_merlin_router "router_002"
+Info: router_005: "mm_interconnect_1" instantiated altera_merlin_router "router_005"
+Info: nios2_0_data_master_limiter: "mm_interconnect_1" instantiated altera_merlin_traffic_limiter "nios2_0_data_master_limiter"
+Info: Reusing file /home/qx/Documents/mpi_fc5/nios2_acc_recv/synthesis/submodules/altera_avalon_sc_fifo.v
+Info: cmd_demux: "mm_interconnect_1" instantiated altera_merlin_demultiplexer "cmd_demux"
+Info: cmd_demux_001: "mm_interconnect_1" instantiated altera_merlin_demultiplexer "cmd_demux_001"
+Info: cmd_mux: "mm_interconnect_1" instantiated altera_merlin_multiplexer "cmd_mux"
+Info: cmd_mux_003: "mm_interconnect_1" instantiated altera_merlin_multiplexer "cmd_mux_003"
+Info: Reusing file /home/qx/Documents/mpi_fc5/nios2_acc_recv/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: rsp_demux: "mm_interconnect_1" instantiated altera_merlin_demultiplexer "rsp_demux"
+Info: rsp_demux_003: "mm_interconnect_1" instantiated altera_merlin_demultiplexer "rsp_demux_003"
+Info: rsp_mux: "mm_interconnect_1" instantiated altera_merlin_multiplexer "rsp_mux"
+Info: Reusing file /home/qx/Documents/mpi_fc5/nios2_acc_recv/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: rsp_mux_001: "mm_interconnect_1" instantiated altera_merlin_multiplexer "rsp_mux_001"
+Info: Reusing file /home/qx/Documents/mpi_fc5/nios2_acc_recv/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: avalon_st_adapter: "mm_interconnect_1" instantiated altera_avalon_st_adapter "avalon_st_adapter"
+Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
+Info: nios2: Done "nios2" with 39 modules, 65 files
+Info: Generating third-party timing and resource estimation model ...
+Info: Done generating third-party timing and resource estimation model.
+Info: qsys-generate succeeded.
+Info: Finished: Create HDL design files for synthesis
